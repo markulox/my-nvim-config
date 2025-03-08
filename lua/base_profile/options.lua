@@ -27,6 +27,11 @@ vim.opt.smartcase = true            -- but make it case sensitive if an uppercas
 -- Text warp
 vim.wo.wrap = false
 
+-- Diagnostic text
+vim.diagnostic.config({
+    float = { wrap = true },
+})
+
 -- Shortcut keymap
 vim.api.nvim_set_keymap('n', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action (Quick Fix)" })
