@@ -4,14 +4,14 @@ vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 vim.opt.mouse = 'a'                 -- allow the mouse to be used in Nvim
 
 -- Tab
-vim.opt.tabstop = 4                 -- number of visual spaces per TAB
-vim.opt.softtabstop = 4             -- number of spacesin tab when editing
-vim.opt.shiftwidth = 4              -- insert 4 spaces on a tab
+vim.opt.tabstop = 2                 -- number of visual spaces per TAB
+vim.opt.softtabstop = 2             -- number of spacesin tab when editing
+vim.opt.shiftwidth = 2              -- insert 4 spaces on a tab
 vim.opt.expandtab = true            -- tabs are spaces, mainly because of python
 
 -- UI config
 vim.opt.number = true               -- show absolute number
-vim.opt.relativenumber = true       -- add numbers to each line on the left side
+--vim.opt.relativenumber = true       -- add numbers to each line on the left side
 vim.opt.cursorline = true           -- highlight cursor line underneath the cursor horizontally
 vim.opt.splitbelow = true           -- open new vertical split bottom
 vim.opt.splitright = true           -- open new horizontal splits right
@@ -27,16 +27,20 @@ vim.opt.smartcase = true            -- but make it case sensitive if an uppercas
 -- Text warp
 vim.wo.wrap = false
 
--- Diagnostic text
-vim.diagnostic.config({
-    float = { wrap = true },
-})
-
 -- Shortcut keymap
 vim.api.nvim_set_keymap('n', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action (Quick Fix)" })
+vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { desc = "Format this file" })
 
 -- Example configuration in Lua for Neovim
 vim.g['airline_theme'] = 'dark'
 -- vim.g['airline#extensions#tabline#enabled'] = 0
 vim.g['airline#extensions#git#enabled'] = 1
+
+vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { silent = true })
+vim.keymap.set("n", "<F10>", ":DapStepOver<CR>", { silent = true })
+vim.keymap.set("n", "<F11>", ":DapStepInto<CR>", { silent = true })
+vim.keymap.set("n", "<F12>", ":DapStepOut<CR>", { silent = true })
+vim.keymap.set("n", "<Leader>b", ":DapToggleBreakpoint<CR>", { silent = true })
+vim.keymap.set("n", "<Leader>dr", ":DapRestartFrame<CR>", { silent = true })
+vim.keymap.set("n", "<Leader>dl", ":lua require('dap').run_last()<CR>", { silent = true })

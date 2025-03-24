@@ -79,15 +79,57 @@ return {
 
             -- Setup rust_analyzer language server
             lspconfig.rust_analyzer.setup({
-                settings = {
-                    ["rust-analyzer"] = {
-                        cargo = { allFeatures = true },
-                        checkOnSave = { command = "clippy" },
-                    }
-                }
+               settings = {
+                   ["rust-analyzer"] = {
+                       imports = {
+                           granularity = { group = "module" },
+                           prefix = "self",
+                       },
+                       cargo = { 
+                           allFeatures = true,
+                           buildScripts = {
+                               enable = true
+                           }
+                       },
+                       checkOnSave = { command = "clippy" },
+                       diagnostics = { enable = true },
+                       inlayHints = { enable = true }
+                   }
+               }
             })
         end,
     },
+    -- {
+    --     "simrat39/rust-tools.nvim",
+    --     dependencies = { "neovim/nvim-lspconfig" },
+    --     config = function()
+    --         require("rust-tools").setup({
+    --             tools = {
+    --                 inlay_hints = { auto = true }, -- Automatically enable inlay hints
+    --             },
+    --             server = {
+    --             -- Setup rust_analyzer language server
+    --                 settings = {
+    --                     ["rust-analyzer"] = {
+    --                         imports = {
+    --                             granularity = { group = "module" },
+    --                             prefix = "self",
+    --                         },
+    --                         cargo = {
+    --                             allFeatures = true,
+    --                             buildScripts = {
+    --                                 enable = true
+    --                             }
+    --                         },
+    --                         checkOnSave = { command = "clippy" },
+    --                         diagnostics = { enable = true },
+    --                         inlayHints = { enable = true }
+    --                     }
+    --                 }
+    --             },
+    --         })
+    --     end,
+    -- },
     {
         "nvim-neotest/neotest",
         optional = true,

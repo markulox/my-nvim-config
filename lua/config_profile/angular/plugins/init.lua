@@ -79,6 +79,7 @@ return {
             lspconfig.angularls.setup({
                 filetypes = { "typescript", "html", "typescriptreact", "angular" },
                 cmd = angular_cmd,
+                capabilities = require("cmp_nvim_lsp").default_capabilities(),
                 on_new_config = function(new_config, new_root_dir)
                     new_config.cmd = angular_cmd
                 end,
