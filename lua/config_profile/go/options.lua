@@ -1,0 +1,1 @@
+_G.theme.dark = "monokai_pro"

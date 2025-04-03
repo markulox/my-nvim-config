@@ -33,6 +33,7 @@ end
 -- Setup lazy.nvim
 local specs = {{ import = "base_profile/plugins" },}
 if nvim_profile then
+  -- Adding other profile into specs
   table.insert(specs, { import = "config_profile/" .. nvim_profile .. "/plugins" })
 end
 require("lazy").setup({
@@ -51,3 +52,4 @@ if nvim_profile then -- if profile config detected
   require("config_profile.".. nvim_profile .. ".post_setup") -- load post setup
 end
 require("base_profile.last_setup")
+require("lazy.theme_manager")

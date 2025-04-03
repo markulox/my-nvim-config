@@ -1,3 +1,5 @@
+_G.theme.dark = "gruvbox"
+
 -- rust_dev profile extra config
 vim.g.lazyvim_rust_diagnostics = "rust-analyzer";
 

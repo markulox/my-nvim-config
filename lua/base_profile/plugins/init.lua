@@ -78,5 +78,6 @@ return {
             dapui.close()
         end
       end
-    }
+    },
+    { "themercorp/themer.lua"},
 }

@@ -1,3 +1,14 @@
+-- Theme name configs
+_G.theme = {
+    light = "github_light",
+    dark = "github_dark",
+    transparent_background = true,
+    airline = {
+        dark = "base16_adwaita",
+        light = "base16_one_light"
+    }
+}
+
 -- Hint: use `:h <option>` to figure out the meaning if needed
 vim.opt.clipboard = 'unnamedplus'   -- use system clipboard 
 vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
