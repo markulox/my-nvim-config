@@ -79,23 +79,23 @@ return {
 
             -- Setup rust_analyzer language server
             lspconfig.rust_analyzer.setup({
-               settings = {
-                   ["rust-analyzer"] = {
-                       imports = {
-                           granularity = { group = "module" },
-                           prefix = "self",
-                       },
-                       cargo = { 
-                           allFeatures = true,
-                           buildScripts = {
-                               enable = true
-                           }
-                       },
-                       checkOnSave = { command = "clippy" },
-                       diagnostics = { enable = true },
-                       inlayHints = { enable = true }
-                   }
-               }
+                settings = {
+                    ["rust-analyzer"] = {
+                        imports = {
+                            granularity = { group = "module" },
+                            prefix = "self",
+                        },
+                        cargo = {
+                            allFeatures = true,
+                            buildScripts = {
+                                enable = true
+                            }
+                        },
+                        checkOnSave = { command = "clippy" },
+                        diagnostics = { enable = true },
+                        inlayHints = { enable = true }
+                    }
+                }
             })
         end,
     },
@@ -171,5 +171,13 @@ return {
                 }),
             }
         end
-    }
+    },
+    -- {
+    --     "olimorris/codecompanion.nvim",
+    --     config = true,
+    --     dependencies = {
+    --         "nvim-lua/plenary.nvim",
+    --         "nvim-treesitter/nvim-treesitter",
+    --     },
+    -- },
 }

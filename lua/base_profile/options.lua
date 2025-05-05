@@ -1,6 +1,6 @@
 -- Theme name configs
 _G.theme = {
-    light = "github_light",
+    light = "markulox_light",
     dark = "github_dark",
     transparent_background = true,
     airline = {
@@ -31,7 +31,7 @@ vim.opt.showmode = false            -- we are experienced, wo don't need the "--
 
 -- Searching
 vim.opt.incsearch = true            -- search as characters are entered
-vim.opt.hlsearch = false            -- do not highlight matches
+vim.opt.hlsearch = true             -- highlight matches
 vim.opt.ignorecase = true           -- ignore case in searches by default
 vim.opt.smartcase = true            -- but make it case sensitive if an uppercase is entered
 
@@ -55,3 +55,21 @@ vim.keymap.set("n", "<F12>", ":DapStepOut<CR>", { silent = true })
 vim.keymap.set("n", "<Leader>b", ":DapToggleBreakpoint<CR>", { silent = true })
 vim.keymap.set("n", "<Leader>dr", ":DapRestartFrame<CR>", { silent = true })
 vim.keymap.set("n", "<Leader>dl", ":lua require('dap').run_last()<CR>", { silent = true })
+
+-- Show diagnostic function
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = '▶', -- '●', '■', '▶', '', etc.
+    spacing = 0,
+    only_current_line = false,
+  },
+  --virtual_text = false, 
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    border = "rounded",
+    source = "always",
+  },
+})

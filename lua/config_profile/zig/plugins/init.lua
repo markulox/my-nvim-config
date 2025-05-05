@@ -14,7 +14,14 @@ return {
             require("mason-lspconfig").setup {
                 ensure_installed = { "zls" },
             }
-            require("lspconfig").zls.setup {}
+            require("lspconfig").zls.setup {
+              on_attach = function(client, bufnr)
+                -- Enable inlay hints if supported
+                if client.server_capabilities.inlayHintProvider then
+                  vim.lsp.inlay_hint.enable(true)
+                end
+              end,
+            }
         end,
     },
     -- {

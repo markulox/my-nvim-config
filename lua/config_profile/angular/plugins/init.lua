@@ -1,5 +1,10 @@
 require("lazy.nvim_profile");
 
+local enabled_inlay_hints = true
+if vim.fn.has("nvim-0.10.0") == 1 then
+  enabled_inlay_hints = true
+end
+
 return {
     { -- For TS syntax hilight
         "sheerun/vim-polyglot"
@@ -9,6 +14,9 @@ return {
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
             "neovim/nvim-lspconfig",
+            -- "lvimuser/lsp-inlayhints.nvim",
+            -- "jose-elias-alvarez/typescript.nvim"
+            "pmizio/typescript-tools.nvim"
         },
         config = function()
             require('mason').setup()
@@ -24,9 +32,34 @@ return {
             local lspconfig = require("lspconfig")
 
             -- Setup ts language server
-            lspconfig.ts_ls.setup ({
-                cmd = { "typescript-language-server", "--stdio" }
-            })
+            -- lspconfig.ts_ls.setup ({
+            --     cmd = { "typescript-language-server", "--stdio" },
+            -- })
+            
+            require("typescript-tools").setup({
+                settings = {
+                  expose_as_code_action = "all",
+                  tsserver_plugins = {},
+                  complete_function_calls = true,
+                  tsserver_file_preferences = {
+                    includeInlayParameterNameHints = "none",
+                    includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                    includeInlayPropertyDeclarationTypeHints = true,
+                    includeInlayFunctionLikeReturnTypeHints = true,
+                    includeInlayEnumMemberValueHints = true,
+                  },
+                },
+                on_attach = function(client, bufnr)
+                  -- Enable inlay hints if supported
+                  if client.server_capabilities.inlayHintProvider then
+                    vim.defer_fn(function()
+                      vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+                    end, 0)
+                  end
+                end,
+              })
 
             -- Setup html language server
             lspconfig.html.setup ({
@@ -118,5 +151,46 @@ return {
                 }),
             }
         end
-    }
+    },
+    -- {
+    --     "jose-elias-alvarez/typescript.nvim",
+    --     dependencies = { "neovim/nvim-lspconfig" },
+    --     config = function()
+    --       local ts = require("typescript")
+    --       require("typescript").setup({
+    --         server = {
+    --           on_attach = function(client, bufnr)
+    --             -- Enable inlay hints if available
+    --             if client.server_capabilities.inlayHintProvider then
+    --               vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+    --             end
+    --           end,
+    --           settings = {
+    --             typescript = {
+    --               inlayHints = {
+    --                 includeInlayParameterNameHints = "all",
+    --                 includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+    --                 includeInlayFunctionParameterTypeHints = true,
+    --                 includeInlayVariableTypeHints = true,
+    --                 includeInlayPropertyDeclarationTypeHints = true,
+    --                 includeInlayFunctionLikeReturnTypeHints = true,
+    --                 includeInlayEnumMemberValueHints = true,
+    --               }
+    --             },
+    --             javascript = {
+    --               inlayHints = {
+    --                 includeInlayParameterNameHints = "all",
+    --                 includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+    --                 includeInlayFunctionParameterTypeHints = true,
+    --                 includeInlayVariableTypeHints = true,
+    --                 includeInlayPropertyDeclarationTypeHints = true,
+    --                 includeInlayFunctionLikeReturnTypeHints = true,
+    --                 includeInlayEnumMemberValueHints = true,
+    --               }
+    --             }
+    --           }
+    --         }
+    --       })
+    --     end
+    --   }
 }
