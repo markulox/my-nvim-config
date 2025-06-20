@@ -43,6 +43,15 @@ require("lazy").setup({
   install = { colorscheme = { "habamax" } },
   -- automatically check for plugin updates
   checker = { enabled = true },
+  -- ui config
+	ui = {
+	  border = "rounded",
+		size = {
+			width = 0.8,
+			height = 0.8,
+		},
+    title = "[LAZY Package Manager]",
+	},
 })
 
 require("base_profile.options") -- load default config

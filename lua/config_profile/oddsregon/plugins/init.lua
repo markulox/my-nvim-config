@@ -1,4 +1,7 @@
 return {
+  { -- For TS syntax hilight
+    "sheerun/vim-polyglot"
+  },
   {
     "Saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
@@ -16,23 +19,6 @@ return {
       },
     },
   },
-  -- {
-  --     "nvim-treesitter/nvim-treesitter",
-  --     opts = {
-  --         ensure_installed = { "rust", "ron", "lua", "toml" },
-  --         auto_install = true,
-  --         highlight = {
-  --             enable = true,
-  --             additional_vim_regex_highlighting = false,
-  --         },
-  --         ident = { enable = true },
-  --         rainbow = {
-  --             enable = true,
-  --             extended_mode = true,
-  --             max_file_lines = nil,
-  --         }
-  --     },
-  -- },
   {
     "williamboman/mason.nvim",
     dependencies = {
@@ -43,6 +29,8 @@ return {
       require('mason').setup()
       require('mason-lspconfig').setup({
         ensure_installed = {
+          "angularls",
+          "ts_ls",
           "html",
           "cssls"
         },
@@ -115,9 +103,9 @@ return {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",        -- Buffer completion
-      "hrsh7th/cmp-path",          -- Path completion
-      "hrsh7th/cmp-cmdline",       -- Command-line completion
+      "hrsh7th/cmp-buffer",  -- Buffer completion
+      "hrsh7th/cmp-path",    -- Path completion
+      "hrsh7th/cmp-cmdline", -- Command-line completion
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
     },
