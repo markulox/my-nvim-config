@@ -23,6 +23,7 @@ else
   selected_scrollbar_color = _G.theme.scrollbar_color.light
 end
 
+-- CHeck package existance?
 require("themer").setup({
   colorscheme = selected_theme,
   transparent = _G.theme.transparent_background,
@@ -32,6 +33,9 @@ require("themer").setup({
     variable        = { style = 'italic' },
     variableBuiltIn = { style = 'italic' },
     parameter       = { style = 'italic' },
+    typeBuiltIn     = { style = 'bold' },
+    keyword         = { style = 'bold' },
+    keywordBuiltIn  = { style = 'bold' },
   },
 })
 

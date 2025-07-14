@@ -46,7 +46,7 @@ vim.opt.smartcase = true  -- but make it case sensitive if an uppercase is enter
 vim.wo.wrap = false
 
 -- Shortcut keymap
-vim.api.nvim_set_keymap('n', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-b>', ':NvimTreeToggle<CR>', { noremap = true, silent = true, desc = "Toggle nvim-tree" })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action (Quick Fix)" })
 vim.keymap.set("n", "<leader>fm", vim.lsp.buf.format, { desc = "Format this file" })
 
@@ -55,13 +55,22 @@ vim.g['airline_theme'] = 'dark'
 -- vim.g['airline#extensions#tabline#enabled'] = 0
 vim.g['airline#extensions#git#enabled'] = 1
 
-vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { silent = true })
-vim.keymap.set("n", "<F10>", ":DapStepOver<CR>", { silent = true })
-vim.keymap.set("n", "<F11>", ":DapStepInto<CR>", { silent = true })
-vim.keymap.set("n", "<F12>", ":DapStepOut<CR>", { silent = true })
-vim.keymap.set("n", "<Leader>b", ":DapToggleBreakpoint<CR>", { silent = true })
-vim.keymap.set("n", "<Leader>dr", ":DapRestartFrame<CR>", { silent = true })
-vim.keymap.set("n", "<Leader>dl", ":lua require('dap').run_last()<CR>", { silent = true })
+vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { silent = true, desc = "Debug: Continue" })
+vim.keymap.set("n", "<F10>", ":DapStepOver<CR>", { silent = true, desc = "Debug: Step over" })
+vim.keymap.set("n", "<F11>", ":DapStepInto<CR>", { silent = true, desc = "Debug: Step into" })
+vim.keymap.set("n", "<F12>", ":DapStepOut<CR>", { silent = true, desc = "Debug: Step out" })
+vim.keymap.set("n", "<Leader>b", ":DapToggleBreakpoint<CR>", { silent = true, desc = "Debug: Toggle break point" })
+vim.keymap.set("n", "<Leader>dr", ":DapRestartFrame<CR>", { silent = true, desc = "Debug: Restart frame" })
+vim.keymap.set("n", "<Leader>dl", ":lua require('dap').run_last()<CR>", { silent = true, desc = "Debug: Last run" })
+
+-- EZ-LSP Rename
+vim.keymap.set('n', '<leader>rn', function()
+  local current_word = vim.fn.expand('<cword>')
+  local new_name = vim.fn.input('New name: ', current_word)
+  if new_name ~= '' and new_name ~= current_word then
+    vim.lsp.buf.rename(new_name)
+  end
+end, { desc = 'LSP Rename' })
 
 -- Show diagnostic function
 vim.diagnostic.config({

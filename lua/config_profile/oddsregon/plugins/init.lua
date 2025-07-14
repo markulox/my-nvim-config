@@ -82,7 +82,18 @@ return {
                 enable = true
               }
             },
-            checkOnSave = { command = "clippy" },
+            checkOnSave = {
+              enable = true,
+              command = "clippy",
+              extraArgs = {
+				        "--",
+				        "--no-deps",
+				        "-Dclippy::correctness",
+				        "-Dclippy::complexity",
+				        "-Wclippy::perf",
+				        "-Wclippy::pedantic",
+			        },
+            },
             diagnostics = { enable = true },
             inlayHints = { enable = true }
           }

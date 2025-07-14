@@ -36,6 +36,9 @@ if nvim_profile then
   -- Adding other profile into specs
   table.insert(specs, { import = "config_profile/" .. nvim_profile .. "/plugins" })
 end
+-- Add last load plugins to import specs
+table.insert(specs, { import = "base_profile/last_load_plugins" })
+
 require("lazy").setup({
   spec = specs,
   -- Configure any other settings here. See the documentation for more details.
