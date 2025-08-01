@@ -32,9 +32,9 @@ dap.configurations.rust = {
     type = "lldb",
     request = "launch",
     program = function()
-      return vim.fn.input("Path to executable: ", get_first_open_dir() .. "/target/debug/", "file")
+      return vim.fn.input("Path to executable: ", Get_first_open_dir() .. "/target/debug/", "file")
     end,
-    cwd = get_first_open_dir(),
+    cwd = Get_first_open_dir(),
     stopOnEntry = false,
     args = {},
   }

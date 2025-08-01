@@ -22,9 +22,9 @@ dap.configurations.zig = {
     type = "lldb",
     request = "launch",
     program = function()
-      return vim.fn.input("Path to executable: ", get_first_open_dir() .. "/zig-out/bin/", "file")
+      return vim.fn.input("Path to executable: ", Get_first_open_dir() .. "/zig-out/bin/", "file")
     end,
-    cwd = get_first_open_dir(),
+    cwd = Get_first_open_dir(),
     stopOnEntry = false,
     args = {},
   }

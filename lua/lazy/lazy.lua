@@ -23,15 +23,15 @@ vim.g.maplocalleader = "\\"
 
 -- Check existance of .nvim_profile
 require("lazy.nvim_profile")
-local nvim_profile = get_profile_name()
+local nvim_profile = Get_profile_name()
 if not nvim_profile then
   vim.notify("[NVIM_PROFILE]: Using based profile.")
 else
-  vim.notify("[NVIM_PROFILE]: Using profile: \""..nvim_profile.."\"")
+  vim.notify("[NVIM_PROFILE]: Using profile: \"" .. nvim_profile .. "\"")
 end
 
 -- Setup lazy.nvim
-local specs = {{ import = "base_profile/plugins" },}
+local specs = { { import = "base_profile/plugins" }, }
 if nvim_profile then
   -- Adding other profile into specs
   table.insert(specs, { import = "config_profile/" .. nvim_profile .. "/plugins" })
@@ -47,21 +47,21 @@ require("lazy").setup({
   -- automatically check for plugin updates
   checker = { enabled = true },
   -- ui config
-	ui = {
-	  border = "rounded",
-		size = {
-			width = 0.8,
-			height = 0.8,
-		},
+  ui = {
+    border = "rounded",
+    size = {
+      width = 0.8,
+      height = 0.8,
+    },
     title = "[LAZY Package Manager]",
-	},
+  },
 })
 
-require("base_profile.options") -- load default config
-require("base_profile.post_setup") -- load default poset setup
-if nvim_profile then -- if profile config detected
-  require("config_profile.".. nvim_profile ..".options") -- load extra config for specific profile
-  require("config_profile.".. nvim_profile .. ".post_setup") -- load post setup
+require("base_profile.options")                              -- load default config
+require("base_profile.post_setup")                           -- load default poset setup
+if nvim_profile then                                         -- if profile config detected
+  require("config_profile." .. nvim_profile .. ".options")   -- load extra config for specific profile
+  require("config_profile." .. nvim_profile .. ".post_setup") -- load post setup
 end
 require("base_profile.last_setup")
 require("lazy.theme_manager")
