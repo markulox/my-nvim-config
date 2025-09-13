@@ -11,6 +11,7 @@ require('nvim-treesitter.configs').setup({
         "css",
         "javascript",
     },
+    auto_install = true
 })
 
 vim.o.foldmethod = 'expr'
@@ -21,18 +22,18 @@ require("fidget").setup(
     {
         -- Options related to LSP progress subsystem
         progress = {
-            poll_rate = 0,              -- How and when to poll for progress messages
-            suppress_on_insert = false, -- Suppress new messages while in insert mode
-            ignore_done_already = false, -- Ignore new tasks that are already complete
+            poll_rate = 0,                -- How and when to poll for progress messages
+            suppress_on_insert = false,   -- Suppress new messages while in insert mode
+            ignore_done_already = false,  -- Ignore new tasks that are already complete
             ignore_empty_message = false, -- Ignore new tasks that don't contain a message
-            clear_on_detach =           -- Clear notification group when LSP server detaches
+            clear_on_detach =             -- Clear notification group when LSP server detaches
                 function(client_id)
                     local client = vim.lsp.get_client_by_id(client_id)
                     return client and client.name or nil
                 end,
             notification_group = -- How to get a progress message's notification group key
                 function(msg) return msg.lsp_client.name end,
-            ignore = {},       -- List of LSP servers to ignore
+            ignore = {},         -- List of LSP servers to ignore
 
             -- Options related to how LSP progress messages are displayed as notifications
             display = {
@@ -63,19 +64,19 @@ require("fidget").setup(
             -- Options related to Neovim's built-in LSP client
             lsp = {
                 progress_ringbuf_size = 0, -- Configure the nvim's LSP progress ring buffer size
-                log_handler = false,   -- Log `$/progress` handler invocations (for debugging)
+                log_handler = false,       -- Log `$/progress` handler invocations (for debugging)
             },
         },
 
         -- Options related to notification subsystem
         notification = {
-            poll_rate = 10,             -- How frequently to update and render notifications
+            poll_rate = 10,               -- How frequently to update and render notifications
             filter = vim.log.levels.INFO, -- Minimum notifications level
-            history_size = 128,         -- Number of removed messages to retain in history
-            override_vim_notify = false, -- Automatically override vim.notify() with Fidget
-            configs =                   -- How to configure notification groups when instantiated
+            history_size = 128,           -- Number of removed messages to retain in history
+            override_vim_notify = false,  -- Automatically override vim.notify() with Fidget
+            configs =                     -- How to configure notification groups when instantiated
             { default = require("fidget.notification").default_config },
-            redirect =                  -- Conditionally redirect notifications to another backend
+            redirect =                    -- Conditionally redirect notifications to another backend
                 function(msg, level, opts)
                     if opts and opts.on_open then
                         return require("fidget.integration.nvim-notify").delegate(msg, level, opts)
@@ -84,12 +85,12 @@ require("fidget").setup(
 
             -- Options related to how notifications are rendered as text
             view = {
-                stack_upwards = true, -- Display notification items from bottom to top
-                icon_separator = " ", -- Separator between group name and icon
+                stack_upwards = true,    -- Display notification items from bottom to top
+                icon_separator = " ",    -- Separator between group name and icon
                 group_separator = "---", -- Separator between notification groups
-                group_separator_hl = -- Highlight group used for group separator
+                group_separator_hl =     -- Highlight group used for group separator
                 "Comment",
-                render_message =     -- How to render notification messages
+                render_message =         -- How to render notification messages
                     function(msg, cnt)
                         return cnt == 1 and msg or string.format("(%dx) %s", cnt, msg)
                     end,
@@ -98,15 +99,15 @@ require("fidget").setup(
             -- Options related to the notification window and buffer
             window = {
                 normal_hl = "Comment", -- Base highlight group in the notification window
-                winblend = 0,      -- Background color opacity in the notification window
-                border = "rounded",   -- Border around the notification window
-                zindex = 45,       -- Stacking priority of the notification window
-                max_width = 0,     -- Maximum width of the notification window
-                max_height = 0,    -- Maximum height of the notification window
-                x_padding = 0,     -- Padding from right edge of window boundary
-                y_padding = 0,     -- Padding from bottom edge of window boundary
-                align = "bottom",  -- How to align the notification window
-                relative = "editor", -- What the notification window position is relative to
+                winblend = 0,          -- Background color opacity in the notification window
+                border = "rounded",    -- Border around the notification window
+                zindex = 45,           -- Stacking priority of the notification window
+                max_width = 0,         -- Maximum width of the notification window
+                max_height = 0,        -- Maximum height of the notification window
+                x_padding = 0,         -- Padding from right edge of window boundary
+                y_padding = 0,         -- Padding from bottom edge of window boundary
+                align = "bottom",      -- How to align the notification window
+                relative = "editor",   -- What the notification window position is relative to
             },
         },
 
@@ -123,13 +124,10 @@ require("fidget").setup(
         -- Options related to logging
         logger = {
             level = vim.log.levels.WARN, -- Minimum logging level
-            max_size = 10000,          -- Maximum log file size, in KB
-            float_precision = 0.01,    -- Limit the number of decimals displayed for floats
-            path =                     -- Where Fidget writes its logs to
+            max_size = 10000,            -- Maximum log file size, in KB
+            float_precision = 0.01,      -- Limit the number of decimals displayed for floats
+            path =                       -- Where Fidget writes its logs to
                 string.format("%s/fidget.nvim.log", vim.fn.stdpath("cache")),
         },
     }
 )
-
-
-

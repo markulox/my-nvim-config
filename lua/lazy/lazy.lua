@@ -1,17 +1,17 @@
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-  local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { out,                            "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
+    local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+    local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+    if vim.v.shell_error ~= 0 then
+        vim.api.nvim_echo({
+            { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+            { out,                            "WarningMsg" },
+            { "\nPress any key to exit..." },
+        }, true, {})
+        vim.fn.getchar()
+        os.exit(1)
+    end
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -25,43 +25,43 @@ vim.g.maplocalleader = "\\"
 require("lazy.nvim_profile")
 local nvim_profile = Get_profile_name()
 if not nvim_profile then
-  vim.notify("[NVIM_PROFILE]: Using based profile.")
+    vim.notify("[NVIM_PROFILE]: Using based profile.")
 else
-  vim.notify("[NVIM_PROFILE]: Using profile: \"" .. nvim_profile .. "\"")
+    vim.notify("[NVIM_PROFILE]: Using profile: \"" .. nvim_profile .. "\"")
 end
 
 -- Setup lazy.nvim
 local specs = { { import = "base_profile/plugins" }, }
 if nvim_profile then
-  -- Adding other profile into specs
-  table.insert(specs, { import = "config_profile/" .. nvim_profile .. "/plugins" })
+    -- Adding other profile into specs
+    table.insert(specs, { import = "config_profile/" .. nvim_profile .. "/plugins" })
 end
 -- Add last load plugins to import specs
 table.insert(specs, { import = "base_profile/last_load_plugins" })
 
 require("lazy").setup({
-  spec = specs,
-  -- Configure any other settings here. See the documentation for more details.
-  -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "habamax" } },
-  -- automatically check for plugin updates
-  checker = { enabled = true },
-  -- ui config
-  ui = {
-    border = "rounded",
-    size = {
-      width = 0.8,
-      height = 0.8,
+    spec = specs,
+    -- Configure any other settings here. See the documentation for more details.
+    -- colorscheme that will be used when installing plugins.
+    install = { colorscheme = { "habamax" } },
+    -- automatically check for plugin updates
+    checker = { enabled = true },
+    -- ui config
+    ui = {
+        border = "rounded",
+        size = {
+            width = 0.8,
+            height = 0.8,
+        },
+        title = "[LAZY Package Manager]",
     },
-    title = "[LAZY Package Manager]",
-  },
 })
 
-require("base_profile.options")                              -- load default config
-require("base_profile.post_setup")                           -- load default poset setup
-if nvim_profile then                                         -- if profile config detected
-  require("config_profile." .. nvim_profile .. ".options")   -- load extra config for specific profile
-  require("config_profile." .. nvim_profile .. ".post_setup") -- load post setup
+require("base_profile.options")                                 -- load default config
+require("base_profile.post_setup")                              -- load default poset setup
+if nvim_profile then                                            -- if profile config detected
+    require("config_profile." .. nvim_profile .. ".options")    -- load extra config for specific profile
+    require("config_profile." .. nvim_profile .. ".post_setup") -- load post setup
 end
 require("base_profile.last_setup")
 require("lazy.theme_manager")
