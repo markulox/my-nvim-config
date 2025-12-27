@@ -17,7 +17,7 @@ end
 local selected_theme = ""
 local selected_airline_theme = ""
 local selected_scrollbar_color = ""
-if is_dark_mode:match("true") then
+if is_dark_mode then
     selected_theme = _G.theme.dark
     selected_airline_theme = _G.theme.airline.dark
     selected_scrollbar_color = _G.theme.scrollbar_color.dark

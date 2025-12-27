@@ -1,19 +1,3 @@
-require('nvim-treesitter.configs').setup({
-    ensure_installed = {
-        "bash",
-        "yaml",
-        "markdown",
-        "markdown_inline",
-        "json",
-        "json5",
-        "toml",
-        "html",
-        "css",
-        "javascript",
-    },
-    auto_install = true
-})
-
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.o.foldenable = false -- Enable folds by default
@@ -131,3 +115,20 @@ require("fidget").setup(
         },
     }
 )
+
+require('nvim-treesitter').setup({
+    ensure_installed = {
+        "bash",
+        "yaml",
+        "markdown",
+        "markdown_inline",
+        "json",
+        "json5",
+        "toml",
+        "html",
+        "css",
+        "javascript",
+    },
+    auto_install = true
+})
+

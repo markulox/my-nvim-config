@@ -82,7 +82,7 @@ return {
             }
         }
     },
-    { "nvim-treesitter/nvim-treesitter" },
+    { "nvim-treesitter/nvim-treesitter"},
     { "j-hui/fidget.nvim" },
     {
         "windwp/nvim-autopairs",
