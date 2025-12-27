@@ -1,1 +1,1 @@
-
+vim.lsp.enable('sourcekit', {})

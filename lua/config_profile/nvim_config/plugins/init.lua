@@ -13,7 +13,8 @@ return {
                 ensure_installed = { "lua_ls" },
                 automatic_installation = true,
             })
-            require("lspconfig").lua_ls.setup({
+            vim.lsp.config('lua_ls', {
+                cmd = {"lua-language-server"},
                 settings = {
                     Lua = {
                         diagnostics = {
@@ -30,7 +31,26 @@ return {
                         },
                     },
                 },
+                root_makers = { ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", "selene.yml", ".git" }
             })
+            -- require("lspconfig").lua_ls.setup({
+            --     settings = {
+            --         Lua = {
+            --             diagnostics = {
+            --                 -- Get the language server to recognize the `vim` global
+            --                 globals = { 'vim' },
+            --             },
+            --             workspace = {
+            --                 -- Make the server aware of Neovim runtime files
+            --                 library = vim.api.nvim_get_runtime_file("", true),
+            --                 checkThirdParty = false,
+            --             },
+            --             telemetry = {
+            --                 enable = false,
+            --             },
+            --         },
+            --     },
+            -- })
             require("neodev").setup()
         end
     },

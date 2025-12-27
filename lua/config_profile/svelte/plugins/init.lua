@@ -1,39 +1,5 @@
 return {
     {
-        "Saecki/crates.nvim",
-        event = { "BufRead Cargo.toml" },
-        opts = {
-            completion = {
-                crates = {
-                    enabled = true,
-                },
-            },
-            lsp = {
-                enabled = true,
-                actions = true,
-                completion = true,
-                hover = true,
-            },
-        },
-    },
-    -- {
-    --     "nvim-treesitter/nvim-treesitter",
-    --     opts = {
-    --         ensure_installed = { "rust", "ron", "lua", "toml" },
-    --         auto_install = true,
-    --         highlight = {
-    --             enable = true,
-    --             additional_vim_regex_highlighting = false,
-    --         },
-    --         ident = { enable = true },
-    --         rainbow = {
-    --             enable = true,
-    --             extended_mode = true,
-    --             max_file_lines = nil,
-    --         }
-    --     },
-    -- },
-    {
         "williamboman/mason.nvim",
         dependencies = {
             "williamboman/mason-lspconfig.nvim",
@@ -43,13 +9,13 @@ return {
             require('mason').setup()
             require('mason-lspconfig').setup({
                 ensure_installed = {
+                    "svelte",
                     "html",
                     "cssls"
                 },
-                automatic_installation = true,
+                automatic_installation = true
             })
 
-            -- local lspconfig = require("lspconfig")
             -- Setup html language server
             vim.lsp.config('html-lsp', {
                 filetypes = { "html" },
@@ -80,36 +46,9 @@ return {
                 single_file_support = true
             })
 
-            -- Setup rust_analyzer language server
-            vim.lsp.config('rust_analyzer', {
-                settings = {
-                    ["rust-analyzer"] = {
-                        imports = {
-                            granularity = { group = "module" },
-                            prefix = "self",
-                        },
-                        cargo = {
-                            allFeatures = true,
-                            buildScripts = {
-                                enable = true
-                            }
-                        },
-                        checkOnSave = { command = "clippy" },
-                        diagnostics = { enable = true },
-                        inlayHints = { enable = true }
-                    }
-                }
-            })
-        end,
-    },
-    {
-        "nvim-neotest/neotest",
-        optional = true,
-        opts = {
-            adapters = {
-                ["rustaceanvim.neotest"] = {},
-            },
-        },
+            -- Setup svelte language server
+            vim.lsp.config('svelte', {})
+        end
     },
     {
         "hrsh7th/nvim-cmp",
@@ -144,4 +83,6 @@ return {
             }
         end
     },
+
 }
+

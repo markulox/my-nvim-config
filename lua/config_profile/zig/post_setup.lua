@@ -28,3 +28,4 @@ dap.configurations.zig = {
         args = {},
     }
 }
+vim.lsp.enable('zls')

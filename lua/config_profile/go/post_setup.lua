@@ -6,3 +6,4 @@ require('nvim-treesitter.configs').setup({
     folding = { enable = true, method = 'syntax' }, -- Enable folding based on Treesitter
 })
 
+vim.lsp.enable('gopls')

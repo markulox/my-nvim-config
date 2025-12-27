@@ -8,3 +8,5 @@ require('nvim-treesitter.configs').setup({
     indent = { enable = true },
     folding = { enable = true, method = 'syntax' }, -- Enable folding based on Treesitter
 })
+
+vim.lsp.enable('pyright')

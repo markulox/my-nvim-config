@@ -17,6 +17,7 @@ require('nvim-treesitter.configs').setup({
 vim.o.foldmethod = 'expr'
 vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.o.foldenable = false -- Enable folds by default
+vim.o.foldlevelstart = 99
 
 require("fidget").setup(
     {
@@ -108,6 +109,7 @@ require("fidget").setup(
                 y_padding = 0,         -- Padding from bottom edge of window boundary
                 align = "bottom",      -- How to align the notification window
                 relative = "editor",   -- What the notification window position is relative to
+                avoid = { "NvimTree" }, -- NvimTree integration
             },
         },
 
@@ -115,10 +117,8 @@ require("fidget").setup(
         integration = {
             ["nvim-tree"] = {
                 enable = true, -- Integrate with nvim-tree/nvim-tree.lua (if installed)
-            },
-            --   ["xcodebuild-nvim"] = {
-            --     enable = true,              -- Integrate with wojciech-kulik/xcodebuild.nvim (if installed)
-            --   },
+                -- DEPRECATED; use notification.window.avoid = { "NvimTree" }
+            }
         },
 
         -- Options related to logging

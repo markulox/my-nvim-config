@@ -14,7 +14,7 @@ return {
                 automatic_installation = true
             })
             -- require('java').setup()
-            require('lspconfig').jdtls.setup({})
+            vim.lsp.config('jdtls',{})
         end
     },
 }

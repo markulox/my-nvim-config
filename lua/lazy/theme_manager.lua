@@ -27,6 +27,7 @@ else
     selected_scrollbar_color = _G.theme.scrollbar_color.light
 end
 
+
 -- CHeck package existance?
 require("themer").setup({
     colorscheme = selected_theme,

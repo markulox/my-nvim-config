@@ -15,14 +15,14 @@ return {
                 ensure_installed = { "zls" },
                 automatic_enable = false
             }
-            require("lspconfig").zls.setup {
+            vim.lsp.config('zls', {
                 on_attach = function(client, bufnr)
                     -- Enable inlay hints if supported
                     if client.server_capabilities.inlayHintProvider then
                         vim.lsp.inlay_hint.enable(true)
                     end
                 end,
-            }
+            })
         end,
     },
     -- {

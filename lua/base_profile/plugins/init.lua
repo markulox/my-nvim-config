@@ -4,18 +4,27 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         -- tag = '0.1.8',
-        dependencies = { 'nvim-lua/plenary.nvim' },
+        dependencies = {
+            -- 'nvim-lua/popup.nvim',
+            'nvim-lua/plenary.nvim',
+            -- 'nvim-telescope/telescope-media-files.nvim'
+        },
         config = function()
-            local telescope = require("telescope.builtin")
-            vim.keymap.set("n", "<leader>ff", telescope.find_files, { silent = true, desc = "Find files" })
-            vim.keymap.set("n", "<leader>fd", telescope.lsp_definitions, { silent = true, desc = "Find LSP definitions" })
-            vim.keymap.set("n", "<leader>fr", telescope.lsp_references, { silent = true, desc = "Find LSP references" })
-            vim.keymap.set("n", "<leader>fs", telescope.lsp_document_symbols,
+            local telescope_builtin = require("telescope.builtin")
+            vim.keymap.set("n", "<leader>ff", telescope_builtin.find_files, { silent = true, desc = "Find files" })
+            vim.keymap.set("n", "<leader>fd", telescope_builtin.lsp_definitions,
+                { silent = true, desc = "Find LSP definitions" })
+            vim.keymap.set("n", "<leader>fr", telescope_builtin.lsp_references,
+                { silent = true, desc = "Find LSP references" })
+            vim.keymap.set("n", "<leader>fs", telescope_builtin.lsp_document_symbols,
                 { silent = true, desc = "Find LSP symbols" })
-            vim.keymap.set("n", "<leader>fg", telescope.live_grep, { silent = true, desc = "Find patterns (Grep)" })
-            vim.keymap.set("n", "<leader>fk", telescope.keymaps, { silent = true, desc = "Find keymaps" })
+            vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep,
+                { silent = true, desc = "Find patterns (Grep)" })
+            vim.keymap.set("n", "<leader>fk", telescope_builtin.keymaps, { silent = true, desc = "Find keymaps" })
 
-            require("telescope").setup({
+            local telescope = require("telescope")
+            -- telescope.load_extension('media_files')
+            telescope.setup({
                 defaults = {
                     layout_strategy = "flex",
                     layout_config = {
@@ -26,6 +35,15 @@ return {
                     },
                     --theme = "dropdown",
                 },
+                -- extensions = {
+                --     media_files = {
+                --         -- filetypes whitelist
+                --         -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
+                --         filetypes = { "png", "webp", "jpg", "jpeg", "pdf" },
+                --         -- find command (defaults to `fd`)
+                --         -- find_cmd = "rg"
+                --     }
+                -- },
             })
         end
     },
@@ -36,11 +54,16 @@ return {
             api.config.mappings.default_on_attach(bufnr)
         end,
         opts = {
+            diagnostics = {
+                enable = true,
+                show_on_dirs = true,
+            },
             sort = {
                 sorter = "case_sensitive",
             },
             view = {
-                width = 30,
+                width = 75,
+                relativenumber = true
             },
             renderer = {
                 group_empty = true,
@@ -92,6 +115,13 @@ return {
     },
     { "themercorp/themer.lua" },
     { "petertriho/nvim-scrollbar" },
+    {
+        "williamboman/mason.nvim",
+        dependencies = {
+            "williamboman/mason-lspconfig.nvim",
+            "neovim/nvim-lspconfig",
+        },
+    },
     -- {
     --   "coder/claudecode.nvim",
     --   dependencies = { "folke/snacks.nvim" },
@@ -114,5 +144,14 @@ return {
     --     { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
     --     { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     --   },
-    -- }
+    -- },
+    {
+        "JasinskiRafal/viu.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "m00qek/baleia.nvim"
+        },
+        opts = {}
+    },
+    {}
 }

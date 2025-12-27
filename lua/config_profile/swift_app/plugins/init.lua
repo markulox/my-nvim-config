@@ -10,8 +10,7 @@ return {
             require('mason-lspconfig').setup({
                 automatic_installation = true,
             })
-            local lspconfig = require('lspconfig')
-            lspconfig.sourcekit.setup({
+            vim.lsp.config('sourcekit', {
                 capabilities = {
                     workspace = {
                         didChangeWatchedFiles = {
@@ -23,7 +22,7 @@ return {
                     "sourcekit-lsp",
                 },
                 filetypes = { "swift", "objective-c", "objective-cpp" },
-                root_dir = lspconfig.util.root_pattern(
+                root_dir = vim.lsp.util.root_pattern(
                     "Package.swift",
                     ".git",
                     "*.xcodeproj",
@@ -35,6 +34,30 @@ return {
                 --   }
                 -- }
             })
+            -- lspconfig.sourcekit.setup({
+            --     capabilities = {
+            --         workspace = {
+            --             didChangeWatchedFiles = {
+            --                 dynamicRegistration = true,
+            --             },
+            --         },
+            --     },
+            --     cmd = {
+            --         "sourcekit-lsp",
+            --     },
+            --     filetypes = { "swift", "objective-c", "objective-cpp" },
+            --     root_dir = lspconfig.util.root_pattern(
+            --         "Package.swift",
+            --         ".git",
+            --         "*.xcodeproj",
+            --         "*.xcworkspace"
+            --     ),
+            --     -- settings = {
+            --     --   swift = {
+            --     --     includeDefaultBuildSettings = true,
+            --     --   }
+            --     -- }
+            -- })
         end,
     },
     {

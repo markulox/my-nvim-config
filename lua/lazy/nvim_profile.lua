@@ -26,7 +26,7 @@ vim.api.nvim_create_user_command("ProfileSet", function(opts)
     local home_dir = vim.fn.expand("~/")
     local profile_path = home_dir .. "/.config/nvim/lua/config_profile/" .. profile_name
     if vim.fn.isdirectory(profile_path) == 1 then
-        os.execute("mkdir " .. Get_first_open_dir() .. "/.nvim")
+        os.execute("mkdir \"" .. Get_first_open_dir() .. "/.nvim\"")
         local f = io.open(Get_first_open_dir() .. "/.nvim/profile", "w")
         if f then
             f:write(profile_name)
@@ -59,7 +59,7 @@ vim.api.nvim_create_user_command("ProfileCreate", function(opts)
         return
     end
 
-    os.execute("mkdir -p " .. plugins_path)
+    os.execute("mkdir -p \"" .. plugins_path .. "\"")
     local plugins_file = io.open(plugins_path .. "/init.lua", "w")
     if plugins_file then
         plugins_file:write("return {}")

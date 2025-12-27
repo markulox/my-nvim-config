@@ -46,9 +46,9 @@ return {
                 automatic_enable = false,
             })
 
-            local lspconfig = require("lspconfig")
+            -- local lspconfig = require("lspconfig")
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
-            lspconfig.pyright.setup({
+            vim.lsp.config('pyright', {
                 on_attach = function(client, bufnr)
                     local bufopts = { noremap = true, silent = true, buffer = bufnr }
                     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
@@ -65,28 +65,22 @@ return {
                     },
                 },
             })
-            -- lspconfig.pylyzer.setup({
-            --   capabilities = capabilities,
-            --   settings = {
-            --     pylyzer = {
-            --       checkOnType = true,           -- enable real-time type checking
-            --       diagnostics = true,           -- enable diagnostic messages
-            --       reportMissingImports = true,  -- show warnings when imports are missing
-            --       inlayHints = {
-            --         enable = true,              -- show type hints inline
-            --         parameterNames = true,      -- show parameter names for functions
-            --         typeHints = true,           -- show type hints for variables
-            --       },
-            --       analysis = {
-            --         --autoSearchPaths = true,        -- automatically include common lib paths
-            --         useLibraryCodeForTypes = true, -- use types from installed packages
-            --         diagnosticMode = "workspace",  -- "workspace" or "openFilesOnly"
-            --       },
-            --       telemetry = {
-            --         enable = false, -- disable telemetry (recommended for privacy)
-            --       }
-            --     }
-            --   }
+            -- lspconfig.pyright.setup({
+            --     on_attach = function(client, bufnr)
+            --         local bufopts = { noremap = true, silent = true, buffer = bufnr }
+            --         vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+            --         vim.keymap.set('v', '<leader>ca', vim.lsp.buf.code_action, bufopts)
+            --     end,
+            --     capabilities = capabilities,
+            --     settings = {
+            --         python = {
+            --             analysis = {
+            --                 autoSearchPaths = true,
+            --                 useLibraryCodeForTypes = true,
+            --                 diagnosticMode = "workspace"
+            --             },
+            --         },
+            --     },
             -- })
         end,
     },
@@ -157,21 +151,21 @@ return {
         },
     },
 
-    -- {
-    --   "nvim-treesitter/nvim-treesitter",
-    --   opts = {
-    --     ensure_installed = { "python", "lua", "vim", "vimdoc" },
-    --     auto_install = true,
-    --     highlight = {
-    --       enable = true,
-    --       additional_vim_regex_highlighting = false,
-    --     },
-    --     ident = { enable = true },
-    --     rainbow = {
-    --       enable = true,
-    --       extended_mode = true,
-    --       max_file_lines = nil,
-    --     }
-    --   },
-    -- }
+    {
+      "nvim-treesitter/nvim-treesitter",
+      opts = {
+        ensure_installed = { "python", "lua", "vim", "vimdoc" },
+        auto_install = true,
+        highlight = {
+          enable = true,
+          additional_vim_regex_highlighting = false,
+        },
+        ident = { enable = true },
+        rainbow = {
+          enable = true,
+          extended_mode = true,
+          max_file_lines = nil,
+        }
+      },
+    }
 }

@@ -29,7 +29,7 @@ vim.opt.cursorcolumn = true
 
 -- UI config
 vim.opt.number = true     -- show absolute number
---vim.opt.relativenumber = true       -- add numbers to each line on the left side
+vim.opt.relativenumber = true       -- add numbers to each line on the left side
 vim.opt.cursorline = true -- highlight cursor line underneath the cursor horizontally
 vim.opt.splitbelow = true -- open new vertical split bottom
 vim.opt.splitright = true -- open new horizontal splits right
@@ -55,6 +55,7 @@ vim.g['airline_theme'] = 'dark'
 -- vim.g['airline#extensions#tabline#enabled'] = 0
 vim.g['airline#extensions#git#enabled'] = 1
 
+-- Dap configuration
 vim.keymap.set("n", "<F5>", ":DapContinue<CR>", { silent = true, desc = "Debug: Continue" })
 vim.keymap.set("n", "<F10>", ":DapStepOver<CR>", { silent = true, desc = "Debug: Step over" })
 vim.keymap.set("n", "<F11>", ":DapStepInto<CR>", { silent = true, desc = "Debug: Step into" })
@@ -62,6 +63,12 @@ vim.keymap.set("n", "<F12>", ":DapStepOut<CR>", { silent = true, desc = "Debug: 
 vim.keymap.set("n", "<Leader>b", ":DapToggleBreakpoint<CR>", { silent = true, desc = "Debug: Toggle break point" })
 vim.keymap.set("n", "<Leader>dr", ":DapRestartFrame<CR>", { silent = true, desc = "Debug: Restart frame" })
 vim.keymap.set("n", "<Leader>dl", ":lua require('dap').run_last()<CR>", { silent = true, desc = "Debug: Last run" })
+
+-- Window Management configuration
+vim.keymap.set("n", "<Leader><Left>", "<C-w>h")
+vim.keymap.set("n", "<Leader><Right>", "<C-w>l")
+vim.keymap.set("n", "<Leader><Up>", "<C-w>k")
+vim.keymap.set("n", "<Leader><Down>", "<C-w>j")
 
 -- EZ-LSP Rename
 vim.keymap.set('n', '<leader>rn', function()
