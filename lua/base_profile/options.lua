@@ -28,8 +28,14 @@ vim.opt.expandtab = true -- tabs are spaces, mainly because of python
 -- vim.opt.cursorcolumn = true
 
 -- UI config
-vim.opt.number = true     -- show absolute number
-vim.opt.relativenumber = true       -- add numbers to each line on the left side
+vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+    callback = function()
+        if vim.bo.buftype == "" then
+            vim.wo.number = true         -- add numbers to each line on the left side on local window
+            vim.wo.relativenumber = true -- show absolute number on local window
+        end
+    end,
+})
 vim.opt.cursorline = true -- highlight cursor line underneath the cursor horizontally
 vim.opt.splitbelow = true -- open new vertical split bottom
 vim.opt.splitright = true -- open new horizontal splits right
@@ -77,7 +83,6 @@ vim.diagnostic.config({
         spacing = 0,
         only_current_line = false,
     },
-    --virtual_text = false,
     signs = true,
     underline = true,
     update_in_insert = false,
@@ -87,4 +92,3 @@ vim.diagnostic.config({
         source = "always",
     },
 })
-

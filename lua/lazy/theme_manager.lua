@@ -1,17 +1,18 @@
+local profile_util = require("lazy.profile_util")
 local is_dark_mode = "true"
 
 -- Check theme colorscheme base on specific OS
--- local os_name = vim.loop.os_uname().sysname
--- if os_name == "Darwin" then
---     local handle = io.popen(
---         'osascript -e "tell application \\"System Events\\" to tell appearance preferences to return dark mode"')
---     if handle == nil then
---         is_dark_mode = "true"
---     else
---         is_dark_mode = handle:read("*a")
---         handle:close()
---     end
--- end
+local os_name = vim.loop.os_uname().sysname
+if os_name == "Darwin" then
+    local handle = io.popen(
+        'osascript -e "tell application \\"System Events\\" to tell appearance preferences to return dark mode"')
+    if handle == nil then
+        is_dark_mode = "true"
+    else
+        is_dark_mode = handle:read("*a")
+        handle:close()
+    end
+end
 
 
 -- Theme management
@@ -28,8 +29,7 @@ else
     selected_scrollbar_color = _G.theme.scrollbar_color.light
 end
 
-
--- CHeck package existance?
+-- Check package existance?
 require("themer").setup({
     colorscheme = selected_theme,
     transparent = _G.theme.transparent_background,
@@ -53,3 +53,13 @@ require("scrollbar").setup({
 
 vim.g['airline_theme'] = selected_airline_theme
 vim.cmd("AirlineRefresh")
+
+
+-- Setup Window title
+vim.opt.title = true
+local profile_name = profile_util.Get_profile_name()
+if profile_name then
+    vim.opt.titlestring = "NVIM[" .. profile_name .. "] :: " .. profile_util.Get_first_open_dir()
+else
+    vim.opt.titlestring = "NVIM :: " .. profile_util.Get_first_open_dir()
+end

@@ -1,33 +1,33 @@
-Arg_path = nil
+local profile_util = require('lazy.profile_util')
 
-function Get_first_open_dir()
-    if Arg_path == nil then
-        Arg_path = vim.fn.argv(0) or vim.fn.getcwd()
-        if string.sub(Arg_path, 1, 1) ~= "/" then
-            Arg_path = vim.fn.getcwd() .. "/" .. Arg_path
-        end
-    end
-    return Arg_path
-end
-
-function Get_profile_name()
-    local f = io.open(Get_first_open_dir() .. "/.nvim/profile", "r")
-    if f then
-        local profile_name = f:read("l");
-        f:close();
-        return profile_name;
-    else
-        return os.getenv("NVIM_PROFILE");
-    end
-end
-
+-- function Get_first_open_dir()
+--     if Arg_path == nil then
+--         Arg_path = vim.fn.argv(0) or vim.fn.getcwd()
+--         if string.sub(Arg_path,1 , 1) ~= "/" then
+--             Arg_path = vim.fn.getcwd() .. "/" .. Arg_path
+--         end
+--     end
+--     return Arg_path
+-- end
+--
+-- function Get_profile_name()
+--     local f = io.open(Get_first_open_dir() .. "/.nvim/profile", "r")
+--     if f then
+--         local profile_name = f:read("l");
+--         f:close();
+--         return profile_name;
+--     else
+--         return os.getenv("NVIM_PROFILE");
+--     end
+-- end
+--
 vim.api.nvim_create_user_command("ProfileSet", function(opts)
     local profile_name = opts.fargs[1]
     local home_dir = vim.fn.expand("~/")
     local profile_path = home_dir .. "/.config/nvim/lua/config_profile/" .. profile_name
     if vim.fn.isdirectory(profile_path) == 1 then
-        os.execute("mkdir \"" .. Get_first_open_dir() .. "/.nvim\"")
-        local f = io.open(Get_first_open_dir() .. "/.nvim/profile", "w")
+        os.execute("mkdir \"" .. profile_util.Get_first_open_dir() .. "/.nvim\"")
+        local f = io.open(profile_util.Get_first_open_dir() .. "/.nvim/profile", "w")
         if f then
             f:write(profile_name)
             f:close()

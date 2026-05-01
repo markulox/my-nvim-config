@@ -1,3 +1,5 @@
+local profile_util = require "lazy.profile_util"
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -23,7 +25,7 @@ vim.g.maplocalleader = "\\"
 
 -- Check existance of .nvim_profile
 require("lazy.nvim_profile")
-local nvim_profile = Get_profile_name()
+local nvim_profile = profile_util.Get_profile_name()
 if not nvim_profile then
     vim.notify("[NVIM_PROFILE]: Using based profile.")
 else

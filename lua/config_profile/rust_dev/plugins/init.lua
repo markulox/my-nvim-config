@@ -74,22 +74,23 @@ return {
     {
         "mfussenegger/nvim-dap",
         config = function()
-            require("nvim-dap-virtual-text").setup()
+            require("nvim-dap-virtual-text").setup({})
             local dap = require("dap")
             dap.adapters.lldb = {
                 type = "executable",
                 command = LLDB_VSCODE,
                 name = "lldb",
             }
+            local profile_util = require('lazy.profile_util')
             dap.configurations.rust = {
                 {
                     name = "Launch Rust Debug",
                     type = "lldb",
                     request = "launch",
                     program = function()
-                        return vim.fn.input("Path to executable: ", Get_first_open_dir() .. "/target/debug/", "file")
+                        return vim.fn.input("Path to executable: ", profile_util.Get_first_open_dir() .. "/target/debug/", "file")
                     end,
-                    cwd = Get_first_open_dir(),
+                    cwd = profile_util.Get_first_open_dir(),
                     stopOnEntry = false,
                     args = {},
                 },
