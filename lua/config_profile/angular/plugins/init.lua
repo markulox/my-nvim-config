@@ -6,9 +6,6 @@ if vim.fn.has("nvim-0.10.0") == 1 then
 end
 
 return {
-    { -- For TS syntax hilight
-        "sheerun/vim-polyglot"
-    },
     {
         "williamboman/mason.nvim",
         dependencies = {
@@ -29,10 +26,8 @@ return {
                 },
                 automatic_installation = true, -- Ensures LSPs are installed automatically
             })
-            local lspconfig = require("lspconfig")
-
             -- Setup ts language server
-            -- lspconfig.ts_ls.setup ({
+            -- vim.lsp.config('ts_ls', {
             --     cmd = { "typescript-language-server", "--stdio" },
             -- })
 
@@ -62,7 +57,7 @@ return {
             -- })
 
             -- Setup html language server
-            lspconfig.html.setup({
+            vim.lsp.config('html', {
                 filetypes = { "html" },
                 capabilities = require("cmp_nvim_lsp").default_capabilities(),
             })
@@ -70,7 +65,7 @@ return {
             -- Setup css language server
             local capabilities = vim.lsp.protocol.make_client_capabilities()
             capabilities.textDocument.completion.completionItem.snippetSupport = true
-            lspconfig.cssls.setup({
+            vim.lsp.config('cssls', {
                 capabilities = capabilities,
                 cmd = { "vscode-css-language-server", "--stdio" },
                 filetypes = { "css", "scss", "less" },
@@ -119,78 +114,4 @@ return {
             -- })
         end,
     },
-    {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer", -- Buffer completion
-            "hrsh7th/cmp-path", -- Path completion
-            "hrsh7th/cmp-cmdline", -- Command-line completion
-            "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-        },
-        opts = function()
-            local cmp = require("cmp")
-            return {
-                snippet = {
-                    expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                    ["<Tab>"] = cmp.mapping.select_next_item(),
-                    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-                }),
-                sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "buffer" },
-                    { name = "path" },
-                }),
-            }
-        end
-    },
-    -- {
-    --     "jose-elias-alvarez/typescript.nvim",
-    --     dependencies = { "neovim/nvim-lspconfig" },
-    --     config = function()
-    --       local ts = require("typescript")
-    --       require("typescript").setup({
-    --         server = {
-    --           on_attach = function(client, bufnr)
-    --             -- Enable inlay hints if available
-    --             if client.server_capabilities.inlayHintProvider then
-    --               vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-    --             end
-    --           end,
-    --           settings = {
-    --             typescript = {
-    --               inlayHints = {
-    --                 includeInlayParameterNameHints = "all",
-    --                 includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-    --                 includeInlayFunctionParameterTypeHints = true,
-    --                 includeInlayVariableTypeHints = true,
-    --                 includeInlayPropertyDeclarationTypeHints = true,
-    --                 includeInlayFunctionLikeReturnTypeHints = true,
-    --                 includeInlayEnumMemberValueHints = true,
-    --               }
-    --             },
-    --             javascript = {
-    --               inlayHints = {
-    --                 includeInlayParameterNameHints = "all",
-    --                 includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-    --                 includeInlayFunctionParameterTypeHints = true,
-    --                 includeInlayVariableTypeHints = true,
-    --                 includeInlayPropertyDeclarationTypeHints = true,
-    --                 includeInlayFunctionLikeReturnTypeHints = true,
-    --                 includeInlayEnumMemberValueHints = true,
-    --               }
-    --             }
-    --           }
-    --         }
-    --       })
-    --     end
-    --   }
 }

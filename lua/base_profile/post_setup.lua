@@ -9,3 +9,8 @@ require('mason-lspconfig').setup({
     },
     automatic_installation = true
 })
+
+
+vim.lsp.enable('jsonls')
+vim.lsp.enable('yamlls')
+vim.lsp.enable('tombi')

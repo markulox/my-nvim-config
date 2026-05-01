@@ -7,7 +7,7 @@ return {
             vim.g.go_fmt_command = "gofumpt" -- Use gofumpt for formatting
             vim.g.go_imports_autosave = 1
             vim.g.go_def_mapping_enabled = 0
-            vim.g.go_gopls_enabled = 1
+            vim.g.go_gopls_enabled = 0
         end,
     },
     -- LSP for Go
@@ -21,7 +21,6 @@ return {
                 automatic_enable = false
             })
 
-            -- local lspconfig = require("lspconfig")
             vim.lsp.config('gopls', {
                 cmd = { "gopls" },
                 settings = {
@@ -37,23 +36,12 @@ return {
             })
         end,
     },
-    --
-    -- Treesitter for syntax highlighting
-    -- {
-    --     "nvim-treesitter/nvim-treesitter",
-    --     build = ":TSUpdate",
-    --     opts = {
-    --         ensure_installed = { "go", "gomod", "gosum", "gowork" },
-    --         highlight = { enable = true },
-    --         indent = { enable = true },
-    --     },
-    -- },
-
     -- Debugging with Delve
     {
         "mfussenegger/nvim-dap",
         dependencies = { "leoluz/nvim-dap-go" },
         config = function()
+            require("nvim-dap-virtual-text").setup()
             require("dap-go").setup(
             --     {
             --     delve = {
@@ -89,10 +77,11 @@ return {
             --         cwd = nil,
             --     }
             -- }
-        )
+            )
 
             -- Setup dapui
             local dap, dapui = require("dap"), require("dapui")
+
             dapui.setup({
                 layouts = {
                     {
@@ -126,6 +115,28 @@ return {
             dap.listeners.before.event_exited["dapui_config"] = function()
                 dapui.close()
             end
+
+            local function load_env(filepath)
+                local env = {}
+                local f = io.open(filepath, 'r')
+                if not f then return env end
+                for line in f:lines() do
+                    local key, val = line:match('^([%w_]+)=(.+)$')
+                    if key then
+                        val = val:match('^"(.*)"$') or val:match("^'(.*)'$") or val
+                        env[key] = val
+                    end
+                end
+                f:close()
+                return env
+            end
+            table.insert(dap.configurations.go, {
+                type = 'go',
+                name = 'Launch with .env',
+                request = 'launch',
+                program = '${file}',
+                env = load_env(vim.fn.getcwd() .. '/.env'),
+            })
         end,
     },
 
@@ -138,37 +149,4 @@ return {
             vim.api.nvim_set_keymap("n", "<leader>tf", ":TestFile<CR>", { noremap = true, silent = true })
         end,
     },
-    {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",  -- Buffer completion
-            "hrsh7th/cmp-path",    -- Path completion
-            "hrsh7th/cmp-cmdline", -- Command-line completion
-            "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-        },
-        opts = function()
-            local cmp = require("cmp")
-            return {
-                snippet = {
-                    expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                    ["<Tab>"] = cmp.mapping.select_next_item(),
-                    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-                }),
-                sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "buffer" },
-                    { name = "path" },
-                }),
-            }
-        end
-    }
 }

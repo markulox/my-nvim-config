@@ -16,55 +16,9 @@ return {
                 automatic_enable = false
             }
             vim.lsp.config('zls', {
-                on_attach = function(client, bufnr)
-                    -- Enable inlay hints if supported
-                    if client.server_capabilities.inlayHintProvider then
-                        vim.lsp.inlay_hint.enable(true)
-                    end
-                end,
+                semantic_tokens = "full",
+                warn_style = true,
             })
-        end,
-    },
-    -- {
-    --     "nvim-treesitter/nvim-treesitter",
-    --     opts = {
-    --         ensure_installed = { "zig" },
-    --         auto_install = true,
-    --         highlight = {
-    --             enable = true,
-    --             additional_vim_regex_highlighting = false,
-    --         },
-    --         ident = { enable = true },
-    --         rainbow = {
-    --             enable = true,
-    --             extended_mode = true,
-    --             max_file_lines = nil,
-    --         }
-    --     },
-    -- },
-    {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-path",
-            "L3MON4D3/LuaSnip",
-        },
-        config = function()
-            local cmp = require("cmp")
-            cmp.setup {
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<Tab>"] = cmp.mapping.select_next_item(),
-                    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                }),
-                sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "buffer" },
-                    { name = "path" },
-                }),
-            }
         end,
     },
     {
@@ -80,5 +34,30 @@ return {
                 parameter       = { style = 'italic' },
             },
         }
+    },
+    {
+        "mfussenegger/nvim-dap",
+        config = function()
+            require("nvim-dap-virtual-text").setup({})
+            local dap = require("dap")
+            dap.adapters.lldb = {
+                type = "executable",
+                command = vim.fn.expand("~/.config/nvim/extensions/vadimcn.codelldb.v1.11.4/adapter/codelldb"),
+                name = "lldb",
+            }
+            dap.configurations.zig = {
+                {
+                    name = "Launch Zig Debug",
+                    type = "lldb",
+                    request = "launch",
+                    program = function()
+                        return vim.fn.input("Path to executable: ", Get_first_open_dir() .. "/zig-out/bin/", "file")
+                    end,
+                    cwd = Get_first_open_dir(),
+                    stopOnEntry = false,
+                    args = {},
+                },
+            }
+        end,
     },
 }

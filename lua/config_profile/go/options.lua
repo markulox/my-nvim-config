@@ -1,2 +1,2 @@
-_G.theme.dark = "monokai_pro"
+-- _G.theme.dark = "monokai_pro"
 

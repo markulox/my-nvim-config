@@ -1,17 +1,18 @@
-local is_dark_mode = true
+local is_dark_mode = "true"
 
 -- Check theme colorscheme base on specific OS
-local os_name = vim.loop.os_uname().sysname
-if os_name == "Darwin" then
-    local handle = io.popen(
-        'osascript -e "tell application \\"System Events\\" to tell appearance preferences to return dark mode"')
-    if handle == nil then
-        is_dark_mode = true
-    else
-        is_dark_mode = handle:read("*a")
-        handle:close()
-    end
-end
+-- local os_name = vim.loop.os_uname().sysname
+-- if os_name == "Darwin" then
+--     local handle = io.popen(
+--         'osascript -e "tell application \\"System Events\\" to tell appearance preferences to return dark mode"')
+--     if handle == nil then
+--         is_dark_mode = "true"
+--     else
+--         is_dark_mode = handle:read("*a")
+--         handle:close()
+--     end
+-- end
+
 
 -- Theme management
 local selected_theme = ""

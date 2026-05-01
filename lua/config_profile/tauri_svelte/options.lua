@@ -1,4 +1,4 @@
-_G.theme.dark = "gruvbox"
+_G.theme.dark = "markulox_dark"
 
 -- rust_dev profile extra config
 vim.g.lazyvim_rust_diagnostics = "rust-analyzer";

@@ -1,5 +1,29 @@
 return {
-    { "vim-airline/vim-airline" },
+    {
+        "vim-airline/vim-airline",
+        init = function()
+            vim.g.airline_mode_map = {
+                -- ['__']    = '-',
+                ['c']     = '⌘',
+                ['i']     = 'I',
+                -- ['ic']    = 'IC',
+                -- ['ix']    = 'IX',
+                ['n']     = 'N',
+                -- ['multi'] = 'M',
+                -- ['ni']    = 'NI',
+                -- ['no']    = 'NO',
+                -- ['R']     = 'R',
+                -- ['Rv']    = 'RV',
+                -- ['s']     = 's',
+                -- ['S']     = 'S',
+                -- ['']     = '^S',
+                -- ['t']     = 'T',
+                ['v']     = 'Vis',
+                ['V']     = '-V-',
+                ['']     = '[V]',
+            }
+        end
+    },
     { "vim-airline/vim-airline-themes" },
     {
         "nvim-telescope/telescope.nvim",
@@ -51,7 +75,8 @@ return {
         "nvim-tree/nvim-tree.lua",
         on_attach = function(bufnr)
             local api = require("nvim-tree.api")
-            api.config.mappings.default_on_attach(bufnr)
+            api.map.on_attach.default(bufnr)
+            -- api.config.mappings.default_on_attach(bufnr)
         end,
         opts = {
             diagnostics = {
@@ -97,6 +122,15 @@ return {
             "rcarriga/nvim-dap-ui",
             "nvim-neotest/nvim-nio",
             "theHamsta/nvim-dap-virtual-text",
+        },
+        keys = {
+            { "<F5>",      "<cmd>DapContinue<CR>",                       silent = true, desc = "Debug: Continue" },
+            { "<F10>",     "<cmd>DapStepOver<CR>",                       silent = true, desc = "Debug: Step over" },
+            { "<F11>",     "<cmd>DapStepInto<CR>",                       silent = true, desc = "Debug: Step into" },
+            { "<F12>",     "<cmd>DapStepOut<CR>",                        silent = true, desc = "Debug: Step out" },
+            { "<Leader>b", "<cmd>DapToggleBreakpoint<CR>",               silent = true, desc = "Debug: Toggle break point" },
+            { "<Leader>dr","<cmd>DapRestartFrame<CR>",                   silent = true, desc = "Debug: Restart frame" },
+            { "<Leader>dl", function() require("dap").run_last() end,    silent = true, desc = "Debug: Last run" },
         },
         config = function()
             require("dapui").setup()
@@ -146,12 +180,45 @@ return {
     --   },
     -- },
     {
-        "JasinskiRafal/viu.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "m00qek/baleia.nvim"
-        },
-        opts = {}
+        "3rd/image.nvim",
+        build = false, -- so that it doesn't build the rock https://github.com/3rd/image.nvim/issues/91#issuecomment-2453430239
+        ft = { "markdown", "norg", "org" },
+        opts = {
+            processor = "magick_cli",
+        }
     },
-    {}
+    {
+        "hrsh7th/nvim-cmp",
+        event = "InsertEnter",
+        dependencies = {
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-cmdline",
+            "L3MON4D3/LuaSnip",
+            "saadparwaiz1/cmp_luasnip",
+        },
+        opts = function()
+            local cmp = require("cmp")
+            return {
+                snippet = {
+                    expand = function(args)
+                        require("luasnip").lsp_expand(args.body)
+                    end,
+                },
+                mapping = cmp.mapping.preset.insert({
+                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<CR>"]      = cmp.mapping.confirm({ select = true }),
+                    ["<Tab>"]     = cmp.mapping.select_next_item(),
+                    ["<S-Tab>"]   = cmp.mapping.select_prev_item(),
+                }),
+                sources = cmp.config.sources({
+                    { name = "nvim_lsp" },
+                    { name = "luasnip" },
+                    { name = "buffer" },
+                    { name = "path" },
+                }),
+            }
+        end
+    },
 }

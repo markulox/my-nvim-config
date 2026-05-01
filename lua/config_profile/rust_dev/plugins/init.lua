@@ -39,48 +39,8 @@ return {
             "williamboman/mason-lspconfig.nvim",
             "neovim/nvim-lspconfig",
         },
-        config = function(_, opts)
+        config = function()
             require('mason').setup()
-            require('mason-lspconfig').setup({
-                ensure_installed = {
-                    "html",
-                    "cssls"
-                },
-                automatic_installation = true,
-            })
-
-            -- local lspconfig = require("lspconfig")
-            -- Setup html language server
-            vim.lsp.config('html-lsp', {
-                filetypes = { "html" },
-                capabilities = require("cmp_nvim_lsp").default_capabilities(),
-            })
-
-            -- Setup css language server
-            local capabilities = vim.lsp.protocol.make_client_capabilities()
-            capabilities.textDocument.completion.completionItem.snippetSupport = true
-            vim.lsp.config('cssls', {
-                capabilities = capabilities,
-                cmd = { "vscode-css-language-server", "--stdio" },
-                filetypes = { "css", "scss", "less" },
-                init_options = {
-                    provideFormatter = true
-                },
-                settings = {
-                    css = {
-                        validate = true
-                    },
-                    less = {
-                        validate = true
-                    },
-                    scss = {
-                        validate = true
-                    }
-                },
-                single_file_support = true
-            })
-
-            -- Setup rust_analyzer language server
             vim.lsp.config('rust_analyzer', {
                 settings = {
                     ["rust-analyzer"] = {
@@ -112,36 +72,28 @@ return {
         },
     },
     {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer",  -- Buffer completion
-            "hrsh7th/cmp-path",    -- Path completion
-            "hrsh7th/cmp-cmdline", -- Command-line completion
-            "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-        },
-        opts = function()
-            local cmp = require("cmp")
-            return {
-                snippet = {
-                    expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                    ["<Tab>"] = cmp.mapping.select_next_item(),
-                    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-                }),
-                sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "buffer" },
-                    { name = "path" },
-                }),
+        "mfussenegger/nvim-dap",
+        config = function()
+            require("nvim-dap-virtual-text").setup()
+            local dap = require("dap")
+            dap.adapters.lldb = {
+                type = "executable",
+                command = LLDB_VSCODE,
+                name = "lldb",
             }
-        end
+            dap.configurations.rust = {
+                {
+                    name = "Launch Rust Debug",
+                    type = "lldb",
+                    request = "launch",
+                    program = function()
+                        return vim.fn.input("Path to executable: ", Get_first_open_dir() .. "/target/debug/", "file")
+                    end,
+                    cwd = Get_first_open_dir(),
+                    stopOnEntry = false,
+                    args = {},
+                },
+            }
+        end,
     },
 }

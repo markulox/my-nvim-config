@@ -1,38 +1,5 @@
 return {
     {
-        "hrsh7th/nvim-cmp",
-        dependencies = {
-            "hrsh7th/cmp-nvim-lsp",
-            "hrsh7th/cmp-buffer", -- Buffer completion
-            "hrsh7th/cmp-path", -- Path completion
-            "hrsh7th/cmp-cmdline", -- Command-line completion
-            "L3MON4D3/LuaSnip",
-            "saadparwaiz1/cmp_luasnip",
-        },
-        opts = function()
-            local cmp = require("cmp")
-            return {
-                snippet = {
-                    expand = function(args)
-                        require("luasnip").lsp_expand(args.body)
-                    end,
-                },
-                mapping = cmp.mapping.preset.insert({
-                    ["<C-Space>"] = cmp.mapping.complete(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
-                    ["<Tab>"] = cmp.mapping.select_next_item(),
-                    ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-                }),
-                sources = cmp.config.sources({
-                    { name = "nvim_lsp" },
-                    { name = "luasnip" },
-                    { name = "buffer" },
-                    { name = "path" },
-                }),
-            }
-        end
-    },
-    {
         "neovim/nvim-lspconfig",
         dependencies = { "williamboman/mason.nvim", "williamboman/mason-lspconfig.nvim" },
         config = function()
@@ -49,11 +16,6 @@ return {
             -- local lspconfig = require("lspconfig")
             local capabilities = require("cmp_nvim_lsp").default_capabilities()
             vim.lsp.config('pyright', {
-                on_attach = function(client, bufnr)
-                    local bufopts = { noremap = true, silent = true, buffer = bufnr }
-                    vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-                    vim.keymap.set('v', '<leader>ca', vim.lsp.buf.code_action, bufopts)
-                end,
                 capabilities = capabilities,
                 settings = {
                     python = {
@@ -138,7 +100,6 @@ return {
             "mfussenegger/nvim-dap", "mfussenegger/nvim-dap-python", --optional
             { "nvim-telescope/telescope.nvim", branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
         },
-        lazy = false,
         keys = {
             -- Keymap to open VenvSelector to pick a venv.
             { "<leader>vs", "<cmd>VenvSelect<cr>" },
@@ -151,6 +112,14 @@ return {
         },
     },
 
+    {
+        "mfussenegger/nvim-dap",
+        config = function()
+            require("nvim-dap-virtual-text").setup()
+            local debugpy = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+            require("dap-python").setup(debugpy)
+        end,
+    },
     {
       "nvim-treesitter/nvim-treesitter",
       opts = {
