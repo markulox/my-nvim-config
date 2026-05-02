@@ -1,8 +1,4 @@
-require('nvim-treesitter.configs').setup({
-    ensure_installed = { "rust" },
-    highlight = { enable = true },
-    indent = { enable = true },
-})
+require('nvim-treesitter').install({ "rust" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)

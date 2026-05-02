@@ -29,9 +29,7 @@ return {
         "nvim-telescope/telescope.nvim",
         -- tag = '0.1.8',
         dependencies = {
-            -- 'nvim-lua/popup.nvim',
             'nvim-lua/plenary.nvim',
-            -- 'nvim-telescope/telescope-media-files.nvim'
         },
         config = function()
             local telescope_builtin = require("telescope.builtin")
@@ -45,6 +43,7 @@ return {
             vim.keymap.set("n", "<leader>fg", telescope_builtin.live_grep,
                 { silent = true, desc = "Find patterns (Grep)" })
             vim.keymap.set("n", "<leader>fk", telescope_builtin.keymaps, { silent = true, desc = "Find keymaps" })
+            vim.keymap.set("n", "<leader>fe", telescope_builtin.diagnostics, { silent = true, desc = "Find errors (diagnostics)" })
 
             local telescope = require("telescope")
             -- telescope.load_extension('media_files')
@@ -55,9 +54,20 @@ return {
                         height = 0.92,
                         width = 0.93,
                         prompt_position = "top",
-                        --preview_cutoff = 0.1
                     },
-                    --theme = "dropdown",
+                },
+                pickers = {
+                    find_files = {
+                        layout_strategy = "flex",
+                        layout_config = {
+                            width = 0.9,
+                            height = 0.9,
+                            prompt_position = "top",
+                        },
+                    },
+                    live_grep = {
+                        layout_strategy = "vertical",
+                    },
                 },
                 -- extensions = {
                 --     media_files = {
@@ -76,7 +86,6 @@ return {
         on_attach = function(bufnr)
             local api = require("nvim-tree.api")
             api.map.on_attach.default(bufnr)
-            -- api.config.mappings.default_on_attach(bufnr)
         end,
         opts = {
             diagnostics = {
@@ -87,7 +96,11 @@ return {
                 sorter = "case_sensitive",
             },
             view = {
-                width = 75,
+                width = {
+                    min = 10,
+                    max = 55,
+                    padding = 1,
+                },
                 relativenumber = true
             },
             renderer = {
@@ -107,7 +120,18 @@ return {
             }
         }
     },
-    { "nvim-treesitter/nvim-treesitter"},
+    {
+        "nvim-treesitter/nvim-treesitter",
+        branch = "main",
+        lazy = false,
+        build = ":TSUpdate",
+        config = function()
+            require('nvim-treesitter').install({
+                "bash", "yaml", "markdown", "markdown_inline",
+                "json", "json5", "toml", "html", "css", "javascript", "lua",
+            })
+        end,
+    },
     { "j-hui/fidget.nvim" },
     {
         "windwp/nvim-autopairs",
@@ -134,7 +158,7 @@ return {
         },
         config = function()
             require("dapui").setup()
-            require("nvim-dap-virtual-text").setup()
+            require("nvim-dap-virtual-text").setup({})
             local dap, dapui = require("dap"), require("dapui")
             dap.listeners.after.event_initialized["dapui_config"] = function()
                 dapui.open()

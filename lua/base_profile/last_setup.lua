@@ -1,17 +1,7 @@
-require('nvim-treesitter.configs').setup({
-    ensure_installed = {
-        "bash",
-        "yaml",
-        "markdown",
-        "markdown_inline",
-        "json",
-        "json5",
-        "toml",
-        "html",
-        "css",
-        "javascript",
-    },
-    auto_install = true
+vim.api.nvim_create_autocmd("FileType", {
+    callback = function()
+        pcall(vim.treesitter.start)
+    end,
 })
 
 vim.o.foldmethod = 'indent'
@@ -130,20 +120,4 @@ require("fidget").setup(
         },
     }
 )
-
-require('nvim-treesitter').setup({
-    ensure_installed = {
-        "bash",
-        "yaml",
-        "markdown",
-        "markdown_inline",
-        "json",
-        "json5",
-        "toml",
-        "html",
-        "css",
-        "javascript",
-    },
-    auto_install = true
-})
 

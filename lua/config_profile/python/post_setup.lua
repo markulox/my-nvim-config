@@ -1,12 +1,3 @@
-require('nvim-treesitter.configs').setup({
-    ensure_installed = { "python" }, -- Add any other languages you need
-    auto_install = true,
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
-    indent = { enable = true },
-    folding = { enable = true, method = 'syntax' }, -- Enable folding based on Treesitter
-})
+require('nvim-treesitter').install({ "python" })
 
 vim.lsp.enable('pyright')

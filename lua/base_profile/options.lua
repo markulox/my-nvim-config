@@ -61,6 +61,15 @@ vim.g['airline_theme'] = 'dark'
 -- vim.g['airline#extensions#tabline#enabled'] = 0
 vim.g['airline#extensions#git#enabled'] = 1
 
+-- Custom statusline layout: mode | filetype | filename || branch | warn | error | line:col/total
+vim.g.airline_section_b = '%{airline#util#wrap(airline#extensions#branch#get_head(),80)}'
+vim.g.airline_section_c = '%f%m'
+vim.g.airline_section_x = '%{&filetype}'
+vim.g.airline_section_y = '%{airline#util#wrap(airline#extensions#nvimlsp#get_warning(),0)} %{airline#util#wrap(airline#extensions#nvimlsp#get_error(),0)}'
+vim.g.airline_section_z = '%l:%c/%L'
+vim.g.airline_section_error = ''
+vim.g.airline_section_warning = ''
+
 -- Window Management configuration
 vim.keymap.set("n", "<Leader><Left>", "<C-w>h")
 vim.keymap.set("n", "<Leader><Right>", "<C-w>l")
